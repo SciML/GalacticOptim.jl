@@ -1,4 +1,4 @@
-using SafeTestsets, Pkg
+using SafeTestsets, Pkg, Hyperopt, Optim
 
 const GROUP = get(ENV, "GROUP", "All")
 const is_APPVEYOR = Sys.iswindows() && haskey(ENV,"APPVEYOR")
@@ -9,7 +9,6 @@ function activate_downstream_env()
     Pkg.develop(PackageSpec(path=dirname(@__DIR__)))
     Pkg.instantiate()
 end
-
 @time begin
 if GROUP == "All" || GROUP == "Core"
     @safetestset "Rosenbrock" begin include("rosenbrock.jl") end

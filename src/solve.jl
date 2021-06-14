@@ -121,7 +121,6 @@ function __solve(prob::OptimizationProblem, opt, data = DEFAULT_DATA;
     # here should be build_solution to create the output message
 end
 
-
 decompose_trace(trace::Optim.OptimizationTrace) = last(trace)
 decompose_trace(trace) = trace
 

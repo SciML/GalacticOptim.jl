@@ -25,6 +25,7 @@ SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 TerminalLoggers = "5d786b92-1e48-4d6f-9151-6b4477ca9bed"
 Tracker = "9f7883ad-71c0-57eb-9f7f-b5c9e6d3789c"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
+Hyperopt = "93e5fe13-2215-51db-baaf-2e9a34fb2712"
 
 [compat]
 ArrayInterface = "2.13, 3.0"
@@ -47,6 +48,7 @@ TerminalLoggers = "0.1"
 Tracker = "0.2"
 Zygote = "0.5, 0.6"
 julia = "1.5"
+Hyperopt = "0.4.4"
 
 [extras]
 BlackBoxOptim = "a134a8b2-14d6-55f6-9291-3336d3ab0209"
