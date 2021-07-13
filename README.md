@@ -4,6 +4,7 @@
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](http://galacticoptim.sciml.ai/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](http://galacticoptim.sciml.ai/dev/)
 
+
 GalacticOptim.jl is a package with a scope that is beyond your normal global optimization
 package. GalacticOptim.jl seeks to bring together all of the optimization packages
 it can find, local and global, into one unified Julia interface. This means, you
