@@ -12,7 +12,7 @@ const AbstractFluxOptimiser = Union{Flux.Momentum,
                                     Flux.AdaBelief,
                                     Flux.Optimiser}
 
-function __solve(prob::OptimizationProblem, opt, data = DEFAULT_DATA;
+function __solve(prob::OptimizationProblem, opt::AbstractFluxOptimiser, data = DEFAULT_DATA;
                  maxiters::Number = 0, cb = (args...) -> (false),
                  progress = false, save_best = true, kwargs...)
 

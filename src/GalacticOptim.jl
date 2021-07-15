@@ -13,7 +13,9 @@ using ArrayInterface, Base.Iterators
 
 import SciMLBase: OptimizationProblem, OptimizationFunction, AbstractADType, __solve
 
-include("solve/solve.jl")
+@enum ObjSense MinSense MaxSense
+
+include("utils.jl")
 include("function/function.jl")
 
 function __init__()

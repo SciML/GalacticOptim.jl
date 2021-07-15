@@ -85,7 +85,7 @@ function make_moi_problem(prob::OptimizationProblem)
     return moiproblem
 end
 
-function __solve(prob::OptimizationProblem, opt::Union{Function, Type{<:MOI.AbstractOptimizer}, MOI.OptimizerWithAttributes})
+function __solve(prob::OptimizationProblem, opt::Union{Function, Type{<:MOI.AbstractOptimizer}, MOI.OptimizerWithAttributes}; sense = MinSense)
     optimizer = MOI.instantiate(opt)
     num_variables = length(prob.u0)
 	θ = MOI.add_variables(optimizer, num_variables)
@@ -105,7 +105,7 @@ function __solve(prob::OptimizationProblem, opt::Union{Function, Type{<:MOI.Abst
 	for i in 1:num_variables
 		MOI.set(optimizer, MOI.VariablePrimalStart(), θ[i], prob.u0[i])
 	end
-    MOI.set(optimizer, MOI.ObjectiveSense(), MOI.MIN_SENSE)
+    MOI.set(optimizer, MOI.ObjectiveSense(), sense === MinSense ? MOI.MIN_SENSE : MOI.MAX_SENSE)
     if prob.lcons === nothing
         @assert prob.ucons === nothing
         con_bounds = MOI.NLPBoundsPair[]

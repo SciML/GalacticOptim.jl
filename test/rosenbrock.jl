@@ -1,4 +1,4 @@
-using GalacticOptim, Optim, Test, Random, Flux, ForwardDiff, Zygote
+using MathOptInterface, GalacticOptim, Optim, Test, Random, Flux, ForwardDiff, Zygote
 
 rosenbrock(x, p) =  (p[1] - x[1])^2 + p[2] * (x[2] - x[1]^2)^2
 x0 = zeros(2)
@@ -52,16 +52,8 @@ prob = OptimizationProblem(optprob, x0, lcons = [-5.0], ucons = [10.0])
 sol = solve(prob, IPNewton())
 @test 10*sol.minimum < l1
 
-import Ipopt
-sol = solve(prob, Ipopt.Optimizer)
-@test 10*sol.minimum < l1
-
 prob = OptimizationProblem(optprob, x0, lcons = [-Inf], ucons = [Inf], lb = [-500.0,-500.0], ub=[50.0,50.0])
 sol = solve(prob, IPNewton())
-@test sol.minimum < l1
-
-import Ipopt
-sol = solve(prob, Ipopt.Optimizer)
 @test sol.minimum < l1
 
 function con2_c(x,p)
@@ -80,6 +72,7 @@ sol = solve(prob, IPNewton())
 @test sqrt(cons(sol.u,nothing)[1]) ≈ 0.25 rtol = 1e-6
 
 optprob = OptimizationFunction(rosenbrock, GalacticOptim.AutoZygote())
+
 prob = OptimizationProblem(optprob, x0)
 sol = solve(prob, Flux.ADAM(), maxiters = 1000, progress = false)
 @test 10*sol.minimum < l1
@@ -91,6 +84,19 @@ sol = solve(prob, Optim.Fminbox())
 Random.seed!(1234)
 prob = OptimizationProblem(optprob, x0, lb=[-1.0, -1.0], ub=[0.8, 0.8])
 sol = solve(prob, Optim.SAMIN())
+@test 10*sol.minimum < l1
+
+optprob = OptimizationFunction((x,p=nothing) -> -rosenbrock(x), GalacticOptim.AutoZygote())
+prob = OptimizationProblem(optprob, x0)
+
+import Ipopt
+sol = solve(prob, Ipopt.Optimizer; sense = GalacticOptim.MaxSense)
+@test 10*sol.minimum < l1
+
+optprob = OptimizationFunction(rosenbrock, GalacticOptim.AutoZygote())
+prob = OptimizationProblem(optprob, x0)
+
+sol = solve(prob, Ipopt.Optimizer; sense = GalacticOptim.MinSense)
 @test 10*sol.minimum < l1
 
 import NLopt
